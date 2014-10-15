@@ -17,6 +17,32 @@ def show_poll(request, poll_name):
             else:
                 votes.append('no')
         answers.append({'name': answer.name, 'votes': votes})
+    counts = {
+        'years': {},
+        'yearmonths': {},
+        'yearmonthdays': {}
+    }
+    for date in possible_dates:
+        if str(date.date.year) in counts['years']:
+            counts['years'][str(date.date.year)] += 1
+        else:
+            counts['years'][str(date.date.year)] = 1
+        if str(date.date.year) + ':' + str(date.date.month) in counts['yearmonths']:
+            counts['yearmonths'][str(date.date.year) + ':' + str(date.date.month)] += 1
+        else:
+            counts['yearmonths'][str(date.date.year) + ':' + str(date.date.month)] = 1
+        if str(date.date.year) + ':' + str(date.date.month) + ':' + str(date.date.day) in counts['yearmonthdays']:
+            counts['yearmonthdays'][str(date.date.year) + ':' + str(date.date.month) + ':' + str(date.date.day)] += 1
+        else:
+            counts['yearmonthdays'][str(date.date.year) + ':' + str(date.date.month) + ':' + str(date.date.day)] = 1
+    dates = []
+    for date in possible_dates:
+        dates.append((
+            date,
+            counts['years'][str(date.date.year)],
+            counts['yearmonths'][str(date.date.year) + ':' + str(date.date.month)],
+            counts['yearmonthdays'][str(date.date.year) + ':' + str(date.date.month) + ':' + str(date.date.day)]
+        ))
     counts = [0.0 for _ in possible_dates]
     for answer in answers:
         for i, vote in enumerate(answer['votes']):
@@ -30,7 +56,7 @@ def show_poll(request, poll_name):
         {
             'poll': poll,
             'answers': answers,
-            'possible_dates': possible_dates,
+            'possible_dates': dates,
             'counts': counts,
             'maxcount': max(counts)
         }

@@ -19,10 +19,40 @@
                 <input type="hidden" value="{{ poll.name }}" name="poll_name">
                 <table>
                     <tr>
-                        <th style="vertical-align: bottom;"><label for="name">Name</label></th>
-                        {% for possible_date in possible_dates %}
+                        <td class="head" style="position: relative; top: 6px;"></td>
+                        {% for possible_date, year_colspan, month_colspan, day_colspan in possible_dates %}
+                            {% ifchanged possible_date.date.year %}
+                                <td style="position: relative; top: 6px;" class="head"
+                                    colspan="{{ year_colspan }}">
+                                    {{ possible_date.date.year }}
+                                </td>
+                            {% endifchanged %}
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th rowspan="3" style="vertical-align: bottom;"><label for="name">Name</label></th>
+                        {% for possible_date, year_colspan, month_colspan, day_colspan in possible_dates %}
+                            {% ifchanged possible_date.date.year possible_date.date.month %}
+                                <td style="position: relative; top: 4px;" class="head"
+                                    colspan="{{ month_colspan }}">
+                                    {{ possible_date.date|date:"F" }}
+                                </td>
+                            {% endifchanged %}
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        {% for possible_date, year_colspan, month_colspan, day_colspan in possible_dates %}
+                            {% ifchanged possible_date.date.year possible_date.date.month possible_date.date.day %}
+                                <td style="position: relative; top: 2px;" class="head"
+                                    colspan="{{ day_colspan }}">
+                                    {{ possible_date.date.day }}
+                                </td>
+                            {% endifchanged %}
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        {% for possible_date, year_colspan, month_colspan, day_colspan in possible_dates %}
                             <td class="head">
-                                {{ possible_date.date|date:"j.n.Y" }}<br />
                                 {{ possible_date.date|date:"G:i" }}
                             </td>
                         {% endfor %}

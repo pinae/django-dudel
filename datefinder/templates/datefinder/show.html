@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head lang="de">
+    <meta charset="UTF-8">
+    <title>Django Dudel</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}" type="text/css" />
+</head>
+<body>
+<div style="position: relative; left: -50%; float: right; overflow: visible; margin: 2em 0;">
+    <div style="position: relative; left: 50%;">
+        <div class="content">
+            <h1>{{ poll.name }}</h1>
+
+            <p>{{ poll.description }}</p>
+
+            <form action="/dudel/save_answer" method="post">
+                {% csrf_token %}
+                <input type="hidden" value="{{ poll.name }}" name="poll_name">
+                <table>
+                    <tr>
+                        <th style="vertical-align: bottom;"><label for="name">Name</label></th>
+                        {% for possible_date in possible_dates %}
+                            <td class="head">
+                                {{ possible_date.date|date:"j.n.Y" }}<br />
+                                {{ possible_date.date|date:"G:i" }}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    {% for answer in answers %}
+                        <tr>
+                            <td class="gray padded">{{ answer.name }}</td>
+                            {% for vote in answer.votes %}
+                                {% if vote == 'yes' %}
+                                    <td class="vote yes">✔</td>
+                                {% elif vote == 'maybe' %}
+                                    <td class="vote maybe">(✔)</td>
+                                {% else %}
+                                    <td class="vote no">✘</td>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td style="text-align: right;"><strong>Summe:</strong></td>
+                        {% for count in counts %}
+                            <td style="text-align: center;">
+                                {% if count == maxcount %}
+                                <strong>{{ count }}</strong>
+                                {% else %}
+                                {{ count }}
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td class="gray">
+                            <input type="text" name="name" id="name"/>
+                        </td>
+                        {% for possible_date in possible_dates %}
+                            <td class="gray">
+                                <input type="radio" name="choice{{ forloop.counter0 }}" value="yes"
+                                       id="choice{{ forloop.counter0 }}yes" checked="checked"/>
+                                <label for="choice{{ forloop.counter0 }}yes">✔</label><br/>
+                                <input type="radio" name="choice{{ forloop.counter0 }}" value="maybe"
+                                       id="choice{{ forloop.counter0 }}maybe"/>
+                                <label for="choice{{ forloop.counter0 }}maybe">(✔)</label><br/>
+                                <input type="radio" name="choice{{ forloop.counter0 }}" value="no"
+                                       id="choice{{ forloop.counter0 }}no"/>
+                                <label for="choice{{ forloop.counter0 }}no">✘</label>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                </table>
+                <input type="submit" value="Speichern" style="float: right;"/>
+
+                <div style="clear: both;"></div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

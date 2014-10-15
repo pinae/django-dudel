@@ -1,0 +1,40 @@
+body {
+    font-family: sans-serif;
+    background-color: #bfbfbf;
+}
+
+.content {
+    background-color: #ffffff;
+    padding: 1em;
+}
+
+table th, table .head {
+    background-color: #5c7de2;
+    color: #ffffff;
+    padding: 1px 3px;
+}
+
+table td.vote {
+    text-align: center;
+    padding: 0.5em 0;
+}
+
+table td.yes {
+    background-color: #4aca5e;
+}
+
+table td.maybe {
+    background-color: #fff063;
+}
+
+table td.no {
+    background-color: #fc5e54;
+}
+
+.gray {
+    background-color: #bfbfbf;
+}
+
+.padded {
+    padding: 0.5em;
+}

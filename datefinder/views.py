@@ -7,49 +7,45 @@ def show_poll(request, poll_name):
     poll = get_object_or_404(Poll, pk=poll_name)
     possible_dates = poll.possible_dates.order_by('date').all()
     answers = []
+    counts = [0.0 for _ in possible_dates]
     for answer in poll.answers.prefetch_related('yes').prefetch_related('maybe').all():
         votes = []
-        for date in possible_dates:
+        for i, date in enumerate(possible_dates):
             if date in answer.yes.all():
                 votes.append('yes')
+                counts[i] += 1
             elif date in answer.maybe.all():
                 votes.append('maybe')
+                counts[i] += 0.5
             else:
                 votes.append('no')
         answers.append({'name': answer.name, 'votes': votes})
-    counts = {
+    rowspan_counts = {
         'years': {},
         'yearmonths': {},
         'yearmonthdays': {}
     }
     for date in possible_dates:
-        if str(date.date.year) in counts['years']:
-            counts['years'][str(date.date.year)] += 1
+        if str(date.date.year) in rowspan_counts['years']:
+            rowspan_counts['years'][str(date.date.year)] += 1
         else:
-            counts['years'][str(date.date.year)] = 1
-        if str(date.date.year) + ':' + str(date.date.month) in counts['yearmonths']:
-            counts['yearmonths'][str(date.date.year) + ':' + str(date.date.month)] += 1
+            rowspan_counts['years'][str(date.date.year)] = 1
+        if str(date.date.year) + ':' + str(date.date.month) in rowspan_counts['yearmonths']:
+            rowspan_counts['yearmonths'][str(date.date.year) + ':' + str(date.date.month)] += 1
         else:
-            counts['yearmonths'][str(date.date.year) + ':' + str(date.date.month)] = 1
-        if str(date.date.year) + ':' + str(date.date.month) + ':' + str(date.date.day) in counts['yearmonthdays']:
-            counts['yearmonthdays'][str(date.date.year) + ':' + str(date.date.month) + ':' + str(date.date.day)] += 1
+            rowspan_counts['yearmonths'][str(date.date.year) + ':' + str(date.date.month)] = 1
+        if str(date.date.year) + ':' + str(date.date.month) + ':' + str(date.date.day) in rowspan_counts['yearmonthdays']:
+            rowspan_counts['yearmonthdays'][str(date.date.year) + ':' + str(date.date.month) + ':' + str(date.date.day)] += 1
         else:
-            counts['yearmonthdays'][str(date.date.year) + ':' + str(date.date.month) + ':' + str(date.date.day)] = 1
+            rowspan_counts['yearmonthdays'][str(date.date.year) + ':' + str(date.date.month) + ':' + str(date.date.day)] = 1
     dates = []
     for date in possible_dates:
         dates.append((
             date,
-            counts['years'][str(date.date.year)],
-            counts['yearmonths'][str(date.date.year) + ':' + str(date.date.month)],
-            counts['yearmonthdays'][str(date.date.year) + ':' + str(date.date.month) + ':' + str(date.date.day)]
+            rowspan_counts['years'][str(date.date.year)],
+            rowspan_counts['yearmonths'][str(date.date.year) + ':' + str(date.date.month)],
+            rowspan_counts['yearmonthdays'][str(date.date.year) + ':' + str(date.date.month) + ':' + str(date.date.day)]
         ))
-    counts = [0.0 for _ in possible_dates]
-    for answer in answers:
-        for i, vote in enumerate(answer['votes']):
-            if vote == 'yes':
-                counts[i] += 1
-            elif vote == 'maybe':
-                counts[i] += 0.5
     return render(
         request,
         'datefinder/show.html',

@@ -2,7 +2,7 @@ This is an example for an easy Django application. You can use this to find date
 
 Installation
 ------------
-You can host this application with or without an virtualenv. To create one type
+You can host this application with or without a virtualenv. To create one type
 
     virtualenv venv
     source venv/bin/activate

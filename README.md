@@ -4,8 +4,8 @@ Installation
 ------------
 You can host this application with or without a virtualenv. To create one type
 
-    virtualenv venv
-    source venv/bin/activate
+    pyvenv env
+    source env/bin/activate
     
 while you are in the directory where your files should live. On a production server this is probably somewhere under 
 /var/www on a developers machine this is normally somewhere in your $HOME.
@@ -14,7 +14,7 @@ Now you can clone the sourcecode of the application into your directory
 
     git clone git@github.com:pinae/django-dudel.git
     
-After that you should have a subdirectory `dudel/` and if you created a virtualenv also a subdirectory `venv/`. The
+After that you should have a subdirectory `dudel/` and if you created a virtualenv also a subdirectory `env/`. The
 actual application is in the `dudel/` directory. So go there: `cd dudel/`.
 
 Now you have the application itself but you need to initialize your database. You can canfigure `dudel/settings.py`
@@ -40,7 +40,7 @@ As this application is directed at developers as an example of how to work with 
 activated by default. On a production server you should change these settings as they might expose information about
 your server to possible attackers.
 
-Edit `dudel/settings.py` and change `DEBUG` to `False` and `TEMPLATE_DEBUG` to `False`. In `settings.py` is also a 
+Edit `dudel/settings.py` and change `DEBUG` to `False`. In `settings.py` is also a 
 [link](https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/) to the Django documentation with tips for 
 what to do on production servers.
 

@@ -19,7 +19,7 @@ actual application is in the `dudel/` directory. So go there: `cd dudel/`.
 
 Now you have the application itself but you need to initialize your database. You can canfigure `dudel/settings.py`
 to use mySQL or PostGreSQL described 
-[here](https://docs.djangoproject.com/en/1.7/ref/databases/ "Django database documentation"). 
+[here](https://docs.djangoproject.com/en/1.11/ref/databases/ "Django database documentation"). 
 Or you can leave the file as it is to use sqlite.
 
 Initialize your database with
@@ -41,7 +41,7 @@ activated by default. On a production server you should change these settings as
 your server to possible attackers.
 
 Edit `dudel/settings.py` and change `DEBUG` to `False`. In `settings.py` is also a 
-[link](https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/) to the Django documentation with tips for 
+[link](https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/) to the Django documentation with tips for 
 what to do on production servers.
 
 There is wsgi file (`dudel/wsgi.py`) which you can use with a wsgi-server like 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import Poll, PossibleDate
+from datefinder.models import Poll, PossibleDate
 
 
 class PossibleDateInline(admin.StackedInline):

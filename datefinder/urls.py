@@ -1,6 +1,10 @@
-from django.conf.urls import patterns, url
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+from __future__ import division, print_function, unicode_literals
+from django.conf.urls import url
+from datefinder.views import save_answer, show_poll
 
-urlpatterns = patterns('',
-    url(r'^save_answer$', 'datefinder.views.save_answer', name='save_answer'),
-    url(r'^(?P<poll_name>(.*))$', 'datefinder.views.show_poll', name='show_poll'),
-)
+urlpatterns = [
+    url(r'^save_answer$', save_answer, name='save_answer'),
+    url(r'^(?P<poll_name>(.*))$', show_poll, name='show_poll'),
+]

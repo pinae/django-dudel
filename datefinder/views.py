@@ -1,6 +1,9 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+from __future__ import division, print_function, unicode_literals
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import Http404
-from models import Poll, Answer
+from datefinder.models import Poll, Answer
 
 
 def show_poll(request, poll_name):
@@ -60,14 +63,13 @@ def show_poll(request, poll_name):
 
 
 def save_answer(request):
-    print (request.POST)
     if not 'poll_name' in request.POST or not 'name' in request.POST:
         raise Http404
     poll_name = request.POST['poll_name']
     poll = get_object_or_404(Poll, pk=poll_name)
     answer = Answer(name=request.POST['name'], poll=poll)
     answer.save()  # We have to save the new answer to create a valid primary key
-    for i, choice in enumerate(poll.possible_dates.all()):
+    for i, choice in enumerate(poll.possible_dates.order_by('date').all()):
         if 'choice' + str(i) in request.POST:
             if request.POST['choice' + str(i)] == 'yes':
                 answer.yes.add(choice)

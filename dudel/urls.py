@@ -1,11 +1,10 @@
-from django.conf.urls import patterns, include, url
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+from __future__ import division, print_function, unicode_literals
+from django.conf.urls import include, url
 from django.contrib import admin
-from django.conf import settings
-from django.conf.urls.static import static
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [ 
     url(r'^dudel/', include('datefinder.urls')),
-
-    url(r'^admin/', include(admin.site.urls)),
-) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    url(r'^admin/', admin.site.urls),
+]

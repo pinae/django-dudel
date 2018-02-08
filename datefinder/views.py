@@ -63,7 +63,7 @@ def show_poll(request, poll_name):
 
 
 def save_answer(request):
-    if not 'poll_name' in request.POST or not 'name' in request.POST:
+    if 'poll_name' not in request.POST or 'name' not in request.POST:
         raise Http404
     poll_name = request.POST['poll_name']
     poll = get_object_or_404(Poll, pk=poll_name)

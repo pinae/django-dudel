@@ -10,12 +10,12 @@ class Poll(models.Model):
 
 
 class PossibleDate(models.Model):
-    poll = models.ForeignKey(Poll, related_name='possible_dates')
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name='possible_dates')
     date = models.DateTimeField()
 
 
 class Answer(models.Model):
-    poll = models.ForeignKey(Poll, related_name='answers')
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name='answers')
     name = models.CharField(max_length=30)
     yes = models.ManyToManyField(PossibleDate, related_name='positive_answers')
     maybe = models.ManyToManyField(PossibleDate, related_name='maybe_answers')

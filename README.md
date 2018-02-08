@@ -4,33 +4,41 @@ Installation
 ------------
 You can host this application with or without a virtualenv. To create one type
 
-    pyvenv env
-    source env/bin/activate
+```bash
+python3 -m venv env
+source env/bin/activate
+```
     
 while you are in the directory where your files should live. On a production server this is probably somewhere under 
 /var/www on a developers machine this is normally somewhere in your $HOME.
 
 Now you can clone the sourcecode of the application into your directory
 
-    git clone git@github.com:pinae/django-dudel.git
+```bash
+git clone git@github.com:pinae/django-dudel.git
+```
     
 After that you should have a subdirectory `dudel/` and if you created a virtualenv also a subdirectory `env/`. The
 actual application is in the `dudel/` directory. So go there: `cd dudel/`.
 
 Now you have the application itself but you need to initialize your database. You can canfigure `dudel/settings.py`
 to use mySQL or PostGreSQL described 
-[here](https://docs.djangoproject.com/en/1.11/ref/databases/ "Django database documentation"). 
+[here](https://docs.djangoproject.com/en/2.0/ref/databases/ "Django database documentation"). 
 Or you can leave the file as it is to use sqlite.
 
 Initialize your database with
 
-    ./manage.py migrate
+```bash
+./manage.py migrate
+```
 
 Start a development Server
 --------------------------
 If you are testing the application or if you are a developer you can start the application now with
 
-    ./manage.py runserver
+```bash
+./manage.py runserver
+```
     
 The application can be accessed under the url `http://localhost:8000`.
 
@@ -41,7 +49,7 @@ activated by default. On a production server you should change these settings as
 your server to possible attackers.
 
 Edit `dudel/settings.py` and change `DEBUG` to `False`. In `settings.py` is also a 
-[link](https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/) to the Django documentation with tips for 
+[link](https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/) to the Django documentation with tips for 
 what to do on production servers.
 
 There is wsgi file (`dudel/wsgi.py`) which you can use with a wsgi-server like 
